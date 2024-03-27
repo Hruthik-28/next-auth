@@ -12,8 +12,7 @@ export async function POST(request: NextRequest) {
         const { username, email, password } = reqBody;
         //validation
 
-        console.log(reqBody);
-
+        // check if user already exists
         const user = await User.findOne({ email });
 
         if (user) {
@@ -23,6 +22,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
+        //hashing the password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
@@ -40,10 +40,9 @@ export async function POST(request: NextRequest) {
         }
 
         // send verification email
-
         sendEmail({ email, emailType: "VERIFY", userId: newUser._id });
 
-        return NextRequest.json({
+        return NextResponse.json({
             message: "User registered successfully !!!",
             success: true,
             newUser,

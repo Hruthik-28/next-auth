@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export default async function connectToDb() {
     try {
-        await mongoose.connect(process.env.MONGO_URI!);
+        await mongoose.connect(`${process.env.MONGO_URI}/next-auth`!);
         const connection = mongoose.connection;
 
         connection.on("connected", () => {
