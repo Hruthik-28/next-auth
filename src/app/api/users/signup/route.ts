@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
         const newUser = await User.create({
             username,
             email,
-            password,
+            password: hashedPassword,
         });
 
         if (!newUser) {
