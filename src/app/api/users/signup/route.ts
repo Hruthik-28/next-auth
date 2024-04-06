@@ -12,6 +12,13 @@ export async function POST(request: NextRequest) {
         const { username, email, password } = reqBody;
         //validation
 
+        if ([username, email, password].some((field) => field?.trim() === "")) {
+            return NextResponse.json(
+                { error: "Every field is required" },
+                { status: 400 }
+            );
+        }
+
         // check if user already exists
         const user = await User.findOne({ email });
 
